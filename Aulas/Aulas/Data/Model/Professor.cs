@@ -1,13 +1,17 @@
-﻿namespace Aulas.Data.Model
-{
-    public class Professor : MyUser
-    {
-        /* *******************************
-         * Relacionamentos N-M
-        ********************************** */
-        /// <summary>
-        /// Lista de disciplinas associadas ao professor, através da tabela de relacionamento N-M CourseProfessor
-        /// </summary>
-        public ICollection<CourseProfessor> CourseProfessors { get; set; } = new List<CourseProfessor>();
-    }
+﻿namespace Aulas.Data.Model {
+
+   /// <summary>
+   /// Professor que leciona Disciplinas
+   /// </summary>
+   public class Professor:MyUser {
+
+      // ############################################################
+      // Relacionamento
+      // ############################################################
+      /// <summary>
+      /// Lista de disciplinas lecionadas pelo professor
+      /// </summary>
+      public ICollection<Course> CoursesList { get; set; } = [];
+
+   }
 }

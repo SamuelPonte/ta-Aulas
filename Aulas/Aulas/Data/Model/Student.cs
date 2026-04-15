@@ -1,56 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Aulas.Data.Model
-{
-    /// <summary>
-    /// classe que representa um estudante, 
-    /// herda de MyUser, 
-    /// que tem as propriedades Id, Name e BirthDate etc.
-    /// </summary>
-    public class Student : MyUser
-    {
-        /// <summary>
-        /// Numero de estudante
-        /// </summary>
-        public int StudentNumber { get; set; }
+namespace Aulas.Data.Model {
 
-        /// <summary>
-        /// Propinas do aluno, com precisão de 8 dígitos e 2 casas decimais
-        /// </summary>
-        [Precision(8,2)]
-        public decimal TuitionFee { get; set; }
+   /// <summary>
+   /// classe que herda todas as características do MyUser, 
+   /// ou seja, tem Id, Nome, Email, etc. 
+   /// E, pode ter outras características específicas de um estudante, 
+   /// como por exemplo, a matrícula, o curso que está fazendo, etc.
+   /// </summary>
+   public class Student:MyUser {
 
-        /// <summary>
-        /// Data de inscrição do aluno
-        /// </summary>
-        public DateTime RegistrationDate { get; set; }
 
-        /* *******************************
-         * Relacionamentos 1-N Regra 4
-        ********************************** */
-        /// <summary>
-        /// FK para curso a que o aluno pertence
-        /// </summary>
-        [ForeignKey(nameof(Degree))]
-        [Display(Name = "Curso")]
-        public int DegreeFK { get; set; }
+      /// <summary>
+      /// Número atribuído a cada estudante, para o identificar de forma única
+      /// </summary>
+      public int StudentNumber { get; set; }
 
-        /// <summary>
-        /// FK para curso a que o aluno pertence
-        /// </summary>
-        [ValidateNever]
-        [Display(Name = "Curso")]
-        public Degree Degree { get; set; } = null!;
+      /// <summary>
+      /// Propina paga pelo Student aquando da matrícula no Degree
+      /// </summary>
+      // [Precision(9, 2)] // informa a EF para criar o atributo com 9 dígitoe e 2, como parte decimal
+      public decimal TuitionFee { get; set; }
 
-        /* *******************************
-         * Relacionamentos N-M
-        ********************************** */
-        /// <summary>
-        /// Lista de inscrições as UCs associado ao aluno
-        /// </summary>
-        public ICollection<Registration> ListOfRegistrations { get; set; } = [];
-    }
+      /// <summary>
+      /// Data de matrícula do aluno
+      /// </summary>
+      [Display(Name = "Data Matrícula")]
+      [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+      [DataType(DataType.Date)]
+      public DateTime RegistrationDate { get; set; } = DateTime.Now;
+
+
+      /* ****************************************
+      * Construção dos Relacionamentos
+      * *************************************** */
+
+      // relacionamento 1-N
+
+
+      /// <summary>
+      /// FK para o Degree
+      /// </summary>
+      [ForeignKey(nameof(Degree))] // esta anotação informa a EF que o atributo 'DegreeFK' é uma FK em conjunto com o atributo 'Degree'
+      [Display(Name = "Curso")]
+      public int DegreeFK { get; set; } // FK para o Degree
+      [ValidateNever] // informa a EF para não validar este atributo
+      public Degree Degree { get; set; } = null!; // FK para o Degree
+
+
+
+      // relacionamento N-M, com atributos no relacionamento
+      /// <summary>
+      /// Lista de UCs em que o aluno está inscrito
+      /// </summary>
+      public ICollection<Registration> RegistrationsList { get; set; } = [];
+   }
 }
