@@ -1,38 +1,46 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Aulas.Data.Model
-{
-    public class Degree
-    {
-        /// <summary>
-        /// PK
-        /// </summary>
-        [Key]
-        public int Id { get; set; }
+namespace Aulas.Data.Model {
 
-        /// <summary>
-        /// Nome do curso
-        /// </summary>
-        [StringLength(100)]
-        public String Name { get; set; } = String.Empty;
+   /// <summary>
+   /// Curso
+   /// </summary>
+   public class Degree {
 
-        /// <summary>
-        /// Logotipo do curso
-        /// </summary>
-        [StringLength(50)]
-        public String? Logotype { get; set; }
+      [Key] // PK
+      public int Id { get; set; }
 
-        /* *******************************
-         * Relacionamentos 1-N
-        ********************************** */
-        /// <summary>
-        /// Lista de disciplinas associadas ao curso
-        /// </summary>
-        public ICollection<Course> ListOfCourses { get; set; } = [];
+      /// <summary>
+      /// nome do Curso
+      /// </summary>
+      [Required(ErrorMessage = "O {0} é de preenchimento obrigatório!")]
+      [StringLength(100)]
+      [Display(Name = "Curso")] // define o nome a aparecer no ecrã
+      public string Name { get; set; } = "";
 
-        /// <summary>
-        /// Lista de estudantes associados ao curso
-        /// </summary>
-        public ICollection<Student> ListOfStudents { get; set; } = [];
-    }
+      /// <summary>
+      /// nome do ficheiro que contém o logótipo do Degree
+      /// </summary>
+      [Display(Name = "Logótipo")] // define o nome a aparecer no ecrã
+      [StringLength(50)]
+      public string? Logotype { get; set; } // o '?' vai tornar o atributo em preenchimento facultativo
+
+
+      /* ****************************************
+       * Construção dos Relacionamentos
+       * *************************************** */
+
+      // relacionamento 1-N
+
+      /// <summary>
+      /// Lista das disciplinas do curso
+      /// </summary>
+      public ICollection<Course> CoursesList { get; set; } = [];
+
+      /// <summary>
+      /// lista dos alunos matriculados no curso
+      /// </summary>
+      public ICollection<Student> StudentsList { get; set; } = [];
+
+   }
 }

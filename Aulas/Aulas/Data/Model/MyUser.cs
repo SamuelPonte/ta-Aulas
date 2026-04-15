@@ -1,47 +1,44 @@
-﻿using Microsoft.VisualBasic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Aulas.Data.Model
-{
-    /// <summary>
-    /// Representa um utilizador genérico, 
-    /// com propriedades comuns a todos os tipos 
-    /// de utilizadores (estudantes, professores, etc.)
-    /// </summary>
-    public class MyUser
-    {
-        /// <summary>
-        /// PK
-        /// </summary>
-        [Key]
-        public int Id { get; set; }
+namespace Aulas.Data.Model {
 
-        /// <summary>
-        /// Nome completo do utilizador
-        /// </summary>
-        [Display(Name = "Nome Completo")]
-        [Required(ErrorMessage = "{0} é de preenchimento obrigatório")]
-        [StringLength(50)]
-        public String Name { get; set; } = String.Empty;
+   /// <summary>
+   /// Classe para representar os utilizadores da aplicação,
+   /// ou seja, os dados que identificam cada utilizador.
+   /// </summary>
+   public class MyUser {
 
-        /// <summary>
-        /// Data de Nascimento do utilizador
-        /// </summary>
-        [Display(Name = "Data de Nascimento")]
-        public DateTime BirthDate { get; set; }
+      [Key] // PK
+      public int Id { get; set; }
 
-        /// <summary>
-        /// Telefone do utilizador
-        /// </summary>
-        [Display(Name = "Telefone")]
-        [Required(ErrorMessage = "{0} é de preenchimento obrigatório")]
-        [StringLength(17)]
-        public String CellPhone { get; set; } = String.Empty;
+      /// <summary>
+      /// Nome do utilizador
+      /// </summary>
+      [StringLength(50)]
+      [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
+      [Display(Name = "Nome Completo")]
+      public string Name { get; set; } = "";
 
-        /// <summary>
-        /// Id do utilizador
-        /// </summary>
-        [StringLength(50)]
-        public String? UserID { get; set; }
-    }
+      /// <summary>
+      /// Data de nascimento
+      /// </summary>
+      [Display(Name = "Data Nascimento")]
+      [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+      [DataType(DataType.Date)]
+      public DateOnly BirthDate { get; set; }
+
+      /// <summary>
+      /// Telemóvel do utilizador, 
+      /// </summary>
+      [Display(Name = "Telemóvel")]
+      [StringLength(19)]
+      public string? CellPhone { get; set; }
+
+      /// <summary>
+      /// atributo para funcionar como FK entre a tabela dos MyUser
+      /// e a tabela da Autenticação
+      /// </summary>
+      //        public string UserID { get; set; } = null!;
+
+   }
 }
